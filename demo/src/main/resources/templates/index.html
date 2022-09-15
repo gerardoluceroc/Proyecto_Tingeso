@@ -7,6 +7,26 @@
 
 <body>
   <p>Esta página web es una página HTML válidaa.</p>
-  
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+        <th>id</th>
+        <th>rut</th>
+        <th>nombres</th>
+        <th>apellidos</th>
+    </tr>
+  </thead>
+<tbody>
+    <tr th:each="empleado:${empleados}">
+        <td th:text="${empleado.id}"></td>
+        <td th:text="${empleado.rut}"></td>
+        <td th:text="${empleado.nombres}"></td>
+        <td th:text="${empleado.apellidos}"></td>
+        
+    </tr>
+</tbody>
+</table>
+
 </body>
 </html>

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -23,9 +23,9 @@ public class EmpleadoEntity {
     private String rut;
     private String nombres;
     private String apellidos;
-    //private Date fecha_nacimiento;
+    private Date fecha_nacimiento;
     //private Id id_categoria;
-    //private Date fecha_ingreso;
+    private Date fecha_ingreso;
 
 }
 
