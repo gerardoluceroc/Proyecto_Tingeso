@@ -1,0 +1,72 @@
+- SOLUCIONAR PROBLEMA CON PERMISOS DENEGADOS
+sudo gpasswd -a gerardo docker
+
+sudo groupadd docker
+sudo usermod -aG docker gerardo
+su - gerardo
+
+- SOLUCIONAR PROBLEMAS DE IMAGEN DOCKER CERRANDOSE
+https://stackoverflow.com/questions/73217146/mysql-container-keep-not-connecting-to-my-container
+
+
+
+- PUSH GITHUB
+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
+git push https://<GITHUB_ACCESS_TOKEN>@github.com/<GITHUB_USERNAME>/<REPOSITORY_NAME>.git
+git push https://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@github.com/gerardoluceroc/https://github.com/gerardoluceroc/Proyecto_Tingeso.git
+
+
+
+- CONSULTAR COMANDOS DE LOS VOLUMENES DE DOCKER
+docker volumes
+
+- CREAR VOLUMEN PARA TENER UN RESPALDO LOCAL DE LA INFO DE LA BASE DE DATOS
+docker volume create volumen-mysql
+
+- EJECUTAR CONTENEDOR CON LOS PUERTOS CORRESPONDIENTE Y EL VOLUMEN CREADO CON CONTRASEÑA DE LA BD "admin"
+
+docker run -d -p 33060:3306 --name contenedor-mysql -e MYSQL_ROOT_PASSWORD=admin --mount src=volumen-mysql,dst=/var/lib/mysql mysql
+
+docker run -d -p 33061:3307 --name contenedor-mysql -e MYSQL_ROOT_PASSWORD=admin --mount src=volumen-mysql,dst=/var/lib/mysql mysql
+
+docker run -d -p 33060:3306 --restart always --name contenedor-mysql -e MYSQL_ROOT_PASSWORD=admin --mount src=volumen-mysql,dst=/var/lib/mysql mysql
+
+
+
+
+docker start contenedor-mysql
+
+- ELIMINAR TODO DE DOCKER (img, volum, etc)
+docker system prune -a
+
+docker container logs bc2d5548cff9
+
+
+- ENTRAR AL CONTENEDOR Y CREAR UNA BASE DE DATOS
+
+docker exec -it contenedor-mysql  mysql -p
+
+- CORRER PROYECTO CON MAVEN
+
+./mvnw spring-boot:run
+
+
+- COMANDOS MYSQL
+
+show databases;
+create database tingeso_db;
+use tingeso_db;
+INSERT INTO empleados (rut, nombres, apellidos) VALUES ("19919462-3", "GerardoAntonio", "LuceroCordova");
+SELECT * FROM empleados;
+SHOW FULL TABLES FROM tingeso_db;
+exit;
+
+
+
+
+
+
+- COMANDOS GIT
+
+git add --all
+git commit -m ""
