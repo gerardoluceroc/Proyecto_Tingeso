@@ -26,70 +26,67 @@ public class EmpleadoEntity {
     private String apellidos;
     private Date fecha_nacimiento;
     private Date fecha_ingreso;
-    private Long id_categoria;
+    @ManyToOne
+    @JoinColumn (name = "id_categoria")
+    private CategoriaEmpleadoEntity categoria;
 
 
 
-    //Getters
     public Long getId_empleado() {
-        return id_empleado;
+        return this.id_empleado;
     }
-
-    public String getRut() {
-        return rut;
-    }
-
-    public String getNombres() {
-        return nombres;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public Date getFecha_nacimiento() {
-        return fecha_nacimiento;
-    }
-
-    public Date getFecha_ingreso() {
-        return fecha_ingreso;
-    }
-
-    public Long getId_categoria() {
-        return id_categoria;
-    }
-
-
-    //Setters
 
     public void setId_empleado(Long id_empleado) {
         this.id_empleado = id_empleado;
+    }
+
+    public String getRut() {
+        return this.rut;
     }
 
     public void setRut(String rut) {
         this.rut = rut;
     }
 
+    public String getNombres() {
+        return this.nombres;
+    }
+
     public void setNombres(String nombres) {
         this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return this.apellidos;
     }
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
 
+    public Date getFecha_nacimiento() {
+        return this.fecha_nacimiento;
+    }
+
     public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
+    }
+
+    public Date getFecha_ingreso() {
+        return this.fecha_ingreso;
     }
 
     public void setFecha_ingreso(Date fecha_ingreso) {
         this.fecha_ingreso = fecha_ingreso;
     }
 
-    public void setId_categoria(Long id_categoria) {
-        this.id_categoria = id_categoria;
+    public CategoriaEmpleadoEntity getCategoria() {
+        return this.categoria;
     }
 
+    public void setCategoria(CategoriaEmpleadoEntity categoria) {
+        this.categoria = categoria;
+    }
 
    
 }

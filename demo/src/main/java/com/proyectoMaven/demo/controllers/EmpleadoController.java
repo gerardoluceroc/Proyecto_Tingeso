@@ -20,6 +20,7 @@ public class EmpleadoController {
     @Autowired
 	EmpleadoService empleadoService;
 
+/* 
     @GetMapping("/empleados/")
     public List<EmpleadoEntity> obtenerUsuarios(){
         return empleadoService.obtenerUsuarios();
@@ -38,4 +39,6 @@ public class EmpleadoController {
         //System.out.println("Hola usuario bienvenido empleado"+ modelo +"KKKKK");
 		return "index";
 	}
+
+    */
 }

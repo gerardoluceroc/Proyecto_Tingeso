@@ -9,7 +9,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "categoriasEmpleados")
+@Table(name = "categorias_empleados")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +23,6 @@ public class CategoriaEmpleadoEntity {
     private String tipo_categoria;
     private int sueldo_fijo_mensual;
     private int monto_hora_extra;
- 
 
     //Getters y Setters de los atributos
 
@@ -58,6 +57,7 @@ public class CategoriaEmpleadoEntity {
     public void setMonto_hora_extra(int monto_hora_extra) {
         this.monto_hora_extra = monto_hora_extra;
     }
+
 
     
 }

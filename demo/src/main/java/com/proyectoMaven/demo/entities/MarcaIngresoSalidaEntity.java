@@ -9,7 +9,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "marcasIngresoSalida")
+@Table(name = "marcas_ingreso_salida")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,13 +20,13 @@ public class MarcaIngresoSalidaEntity {
     @Column(unique = true, nullable = false)
     private Long id_marcaIngresoSalida;
 
-
     private String hora_entrada;
     private String hora_salida;
+    private String fecha;
+    @ManyToOne
+    @JoinColumn(name = "id_empleado")
+    private EmpleadoEntity empleado;
 
-
-    //Getters y Setters de los atributos
-    
     public Long getId_marcaIngresoSalida() {
         return this.id_marcaIngresoSalida;
     }
@@ -50,6 +50,25 @@ public class MarcaIngresoSalidaEntity {
     public void setHora_salida(String hora_salida) {
         this.hora_salida = hora_salida;
     }
+
+    public String getFecha() {
+        return this.fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public EmpleadoEntity getEmpleado() {
+        return this.empleado;
+    }
+
+    public void setEmpleado(EmpleadoEntity empleado) {
+        this.empleado = empleado;
+    }
+
+
+    //Getters y Setters de los atributos
 
     
     
