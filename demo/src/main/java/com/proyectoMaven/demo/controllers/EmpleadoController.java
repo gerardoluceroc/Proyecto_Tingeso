@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.proyectoMaven.demo.entities.EmpleadoEntity;
@@ -20,7 +21,7 @@ public class EmpleadoController {
     @Autowired
 	EmpleadoService empleadoService;
 
-/* 
+///* 
     @GetMapping("/empleados/")
     public List<EmpleadoEntity> obtenerUsuarios(){
         return empleadoService.obtenerUsuarios();
@@ -36,9 +37,31 @@ public class EmpleadoController {
 	public String listar(Model modelo) {
     	ArrayList<EmpleadoEntity> empleados=empleadoService.obtenerUsuarios();
     	modelo.addAttribute("empleados",empleados);
-        //System.out.println("Hola usuario bienvenido empleado"+ modelo +"KKKKK");
+        System.out.println("Hola usuario bienvenido empleado"+ modelo +"KKKKK");
 		return "index";
 	}
 
-    */
+    //consultar por empleado por id
+    @GetMapping("/empleados/{id}")
+    public String buscarEmpleadoPorId(@PathVariable Long id, Model modelo){
+
+        ArrayList<EmpleadoEntity> empleado = empleadoService.buscarEmpleadoPorId(id);
+        modelo.addAttribute("empleados",empleado);
+
+        return "index";
+    }
+
+    //prueba controller
+    @GetMapping("/prueba/{id}")
+    public String prueba(@PathVariable Long id, Model modelo){
+
+        ArrayList<EmpleadoEntity> empleado = empleadoService.prueba(id);
+        modelo.addAttribute("empleados",empleado);
+
+        return "index";
+
+
+    }
+
+  //  */
 }

@@ -27,7 +27,7 @@ public class EmpleadoEntity {
     private Date fecha_nacimiento;
     private Date fecha_ingreso;
     @ManyToOne
-    @JoinColumn (name = "id_categoria")
+    @JoinColumn(name = "id_categoria")
     private CategoriaEmpleadoEntity categoria;
 
 

@@ -12,17 +12,24 @@
   <thead class="thead-dark">
     <tr>
         <th>id</th>
-        <th>rut</th>
         <th>nombres</th>
         <th>apellidos</th>
+        <th>rut</th>
+        <th>fecha de nacimiento</th>
+        <th>fecha de ingreso</th>
+
+        
     </tr>
   </thead>
 <tbody>
     <tr th:each="empleado:${empleados}">
-        <td th:text="${empleado.id}"></td>
-        <td th:text="${empleado.rut}"></td>
+        <td th:text="${empleado.id_empleado}"></td>
         <td th:text="${empleado.nombres}"></td>
         <td th:text="${empleado.apellidos}"></td>
+        <td th:text="${empleado.rut}"></td>
+        <td th:text="${empleado.fecha_nacimiento}"></td>
+        <td th:text="${empleado.fecha_ingreso}"></td>
+        
         
     </tr>
 </tbody>

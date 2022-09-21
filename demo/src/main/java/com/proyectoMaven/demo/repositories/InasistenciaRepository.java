@@ -17,8 +17,8 @@ public interface InasistenciaRepository extends JpaRepository<InasistenciaEntity
     //Metodo para obtener las inasistencias de un empleado
     //El metodo consulta la base de datos de acuerdo al ID del empleado
 
-    @Query(value = "SELECT * FROM inasistencias", nativeQuery = true)
-    public ArrayList<InasistenciaEntity> obtenerInasistenciasEmpleado(EmpleadoEntity empleado);
+    //@Query(value = "SELECT e FROM empleados WHERE e.id_categoria = 3", nativeQuery = true)
+    //public ArrayList<InasistenciaEntity> obtenerInasistenciasEmpleado(EmpleadoEntity empleado);
 
         //Listado de salida
         //ArrayList<InasistenciaEntity> listaInasistencias = new ArrayList<InasistenciaEntity>();
@@ -28,6 +28,7 @@ public interface InasistenciaRepository extends JpaRepository<InasistenciaEntity
 
         //@Query("Select * FROM inasistencias")
     // fin obtenerInasistenciasEmpleado
+
 
    
 
