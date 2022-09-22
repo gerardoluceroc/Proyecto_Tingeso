@@ -13,6 +13,7 @@ import com.proyectoMaven.demo.repositories.EmpleadoRepository;
 import com.proyectoMaven.demo.services.EmpleadoService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -52,11 +53,15 @@ public class EmpleadoController {
     }
 
     //prueba controller
-    @GetMapping("/prueba/{id}")
-    public String prueba(@PathVariable Long id, Model modelo){
+    @GetMapping("/prueba")
+    public String prueba(Model modelo){
 
-        ArrayList<EmpleadoEntity> empleado = empleadoService.prueba(id);
-        modelo.addAttribute("empleados",empleado);
+      //  int cantidadInasistencias = empleadoService.prueba(id);
+       // System.out.println("Las inasistencias del empleado con id "+id+" es "+cantidadInasistencias);
+        //modelo.addAttribute("empleados",empleado);
+        ArrayList<EmpleadoEntity> empleados = empleadoService.obtenerUsuarios(); 
+        EmpleadoEntity empleadoPrueba = empleados.get(0);
+        double fechaIngreso = empleadoService.calcularBonificacionTiempoServicio(empleadoPrueba);
 
         return "index";
 

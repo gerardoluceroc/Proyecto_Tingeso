@@ -7,8 +7,11 @@ import com.proyectoMaven.demo.entities.EmpleadoEntity;
 import com.proyectoMaven.demo.entities.InasistenciaEntity;
 import com.proyectoMaven.demo.repositories.EmpleadoRepository;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class EmpleadoService {
@@ -51,6 +54,10 @@ public class EmpleadoService {
 
     }//Fin calcularDescuentoCotizacionSocial()
 
+
+
+
+
      //Metodo para calcular el descuento por la cotizacion del plan de salud de un empleado
      public static double calcularDescuentoCotizacionPlanSalud(EmpleadoEntity empleado){
 
@@ -67,16 +74,101 @@ public class EmpleadoService {
 
     }//Fin calcularDescuentoCotizacionPlanSalud()
 
-    //Metodo que calcula el descuento de un empleado debido a inasistencias no justificadas
-    //double calcularDescuentoInasistencias(EmpleadoEntity empleado){
-
-        //Se consulta en la base de datos por las inasistencias del empleado
-      //  ArrayList<InasistenciaEntity> 
 
 
-//    }//fin calcularDescuentoInasistencias
+    //Metodo para calcular el descuento por inasistencias de un empleado
+    public double calcularDescuentoInasistenciasNoJustificadas(EmpleadoEntity empleado){
+
+        int cantidadInasistencias = empleadoRepository.calcularInasistenciasNoJustificadas(empleado.getId_empleado());
+        double porcentajeDescuentoPorDia = 0.15;
+        double porcentajeDescuentoTotal = porcentajeDescuentoPorDia * cantidadInasistencias;
+        int sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado());
+        double descuentoTotal = sueldoFijo * porcentajeDescuentoTotal;
+        return descuentoTotal;
+    }//fin calcularDescuentoInasistencias
 
 
+
+
+
+
+
+
+    //Metodo para calcular la bonificacion de un empleado por años de servicio
+    public double calcularBonificacionTiempoServicio(EmpleadoEntity empleado){
+
+        double BonificationLessThanFive = 0.0;
+        double BonificationMoreThanFive = 0.05;
+        double BonificationMoreThanTen = 0.08;
+        double BonificationMoreThanFiveteen = 0.11;
+        double BonificationMoreThanTwenty = 0.14;
+        double BonificationMoreThanTwentyfive = 0.17;
+
+        //salida
+        double bonificacionTotal = 0;
+
+        //se guarda la fecha de ingreso del empleado
+        Date fechaIngreso = empleado.getFecha_ingreso();
+
+        //Se guarda la cantidad de dias que contiene un año
+        double daysPerYear = 365.25;
+
+        Date fechaHoy = new Date();
+
+        //Se calculan los milisegundos transcurridos entre la fecha actual y la fecha de ingreso del empleado
+        long tiempoTranscurrido = fechaHoy.getTime() - fechaIngreso.getTime();
+
+        //Se obtienen los dias transcurridos
+        TimeUnit unidadMedida = TimeUnit.DAYS;
+        long diasTranscurridos = unidadMedida.convert(tiempoTranscurrido, TimeUnit.MILLISECONDS);
+        //Se calculan los años de servicio (int)
+        Double calculoYears = diasTranscurridos / daysPerYear;
+        int yearsService = calculoYears.intValue();
+
+
+        //Se calcula la bonificación de acuerdo a los años de servicio y se retorna su resultado
+        double sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado());
+
+        if(yearsService < 5 ){
+            bonificacionTotal = sueldoFijo * BonificationLessThanFive;
+            return bonificacionTotal;
+
+        }else if((yearsService >= 5) && (yearsService < 10)){
+            bonificacionTotal = sueldoFijo * BonificationMoreThanFive;
+            return bonificacionTotal;
+
+        }else if((yearsService >= 10) && (yearsService < 15)){
+            bonificacionTotal = sueldoFijo * BonificationMoreThanTen; 
+            return bonificacionTotal;          
+
+        }else if((yearsService >= 15) && (yearsService < 20)){
+            bonificacionTotal = sueldoFijo * BonificationMoreThanFiveteen;
+            return bonificacionTotal;
+
+        }else if((yearsService >= 20) && (yearsService < 25)){
+            bonificacionTotal = sueldoFijo * BonificationMoreThanTwenty;
+            return bonificacionTotal;
+
+        }else if(yearsService >= 25){
+            bonificacionTotal = sueldoFijo * BonificationMoreThanTwentyfive;
+            return bonificacionTotal;
+        }else {
+            return bonificacionTotal;
+        }
+
+        //Si lleva menos de 5 años
+        //Date tiempoTranscurrido = fechaIngreso.from(Instant.now());
+        //System.out.println("Fecha de ingreso: "+fechaIngreso);
+        //System.out.println("Fecha de hoy: " +fechaHoy);
+        //System.out.println("Tiempo transcurrido: " + tiempoTranscurrido);
+        //System.out.println("Dias transcurridos: " + diasTranscurridos);
+        //System.out.println("Años de servicio double: " + calculoYears);
+        //System.out.println("Años de servicio int: " + yearsService);
+        //System.out.println("Sueldo Fijo: " + sueldoFijo);
+        //System.out.println("Beneficio por años: " + bonificacionTotal);
+
+        
+    }// fin calcular bonificacion por tiempo de servicio
 
 
 
@@ -87,10 +179,10 @@ public class EmpleadoService {
 
 
 //BORRAR
-public ArrayList<EmpleadoEntity> prueba(Long id){
+//public int prueba(Long id){
 
-    return empleadoRepository.prueba(id);
-} 
+  //  return empleadoRepository.prueba(id);
+//} 
 
 
 
@@ -112,20 +204,33 @@ public ArrayList<EmpleadoEntity> prueba(Long id){
     //Salida: Sueldo Final
     public double calcularSueldoFinal(EmpleadoEntity empleado){
 
-        double sueldoFinal = 0;
-        double descuentoCotizacionPlanSalud = 0;
-        double descuentoCotizacionPrevisional = 0;
-        double descuentoInasistencias = 0;
-        double descuentoAtrasos = 0;
+        double sueldoFinal = 0.0;
+        double descuentoCotizacionPlanSalud = 0.0;
+        double descuentoCotizacionPrevisional = 0.0;
+        double descuentoInasistencias = 0.0;
+        double descuentoAtrasos = 0.0;
+        double bonificacionTiempoServicio = 0.0;
 
     
         //se calculan los descuentos
         descuentoCotizacionPlanSalud = calcularDescuentoCotizacionPlanSalud(empleado);
         descuentoCotizacionPrevisional = calcularDescuentoCotizacionPrevisional(empleado);
+        descuentoInasistencias = calcularDescuentoInasistenciasNoJustificadas(empleado);
+        //FALTAN LOS DESCUENTOS POR ATRASOS
+
+        //Se calcula la bonificacion por horas extras
+
+        //Se calcula la bonificacion por años de servicio
+        bonificacionTiempoServicio = calcularBonificacionTiempoServicio(empleado);
+
+
 
         return sueldoFinal;
 
-    }//fin calcularSueldoFinal()
+    }
+
+
+
 
 
 
