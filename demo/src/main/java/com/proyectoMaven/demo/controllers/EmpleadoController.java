@@ -61,8 +61,8 @@ public class EmpleadoController {
         //modelo.addAttribute("empleados",empleado);
         ArrayList<EmpleadoEntity> empleados = empleadoService.obtenerUsuarios(); 
         EmpleadoEntity empleadoPrueba = empleados.get(0);
-        double fechaIngreso = empleadoService.calcularBonificacionTiempoServicio(empleadoPrueba);
-
+        //double fechaIngreso = empleadoService.calcularBonificacionTiempoServicio(empleadoPrueba);
+        empleadoService.calcularSueldoFinal(empleadoPrueba);
         return "index";
 
 

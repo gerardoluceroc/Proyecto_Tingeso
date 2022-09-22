@@ -27,6 +27,13 @@ public interface EmpleadoRepository extends CrudRepository<EmpleadoEntity, Long>
     @Query(value = "select c.sueldo_fijo_mensual from categorias_empleados c, empleados e where e.id_categoria = c.id_categoria and e.id_empleado = :id", nativeQuery = true)
     int consultarSueldoFijoMensual(@Param("id") Long id);
 
+    //Se consulta a la base de datos por las horas extras aprobadas realizadas por un empleado
+    @Query(value = "select count(*) from horas_extras h, empleados e where h.id_empleado = e.id_empleado and e.id_empleado = :id and h.hora_extra_aprobada = true", nativeQuery = true)
+    int consultarCantidadHorasExtras(@Param("id") Long id);
+
+    //Se consulta a la bd por el monto por hora extra de un empleado
+    @Query(value = "select c.monto_hora_extra from categorias_empleados c, empleados e where e.id_categoria = c.id_categoria and e.id_empleado = :id" ,nativeQuery = true)
+    int consultarMontoHorasExtras(@Param("id") Long id);
 
 
 

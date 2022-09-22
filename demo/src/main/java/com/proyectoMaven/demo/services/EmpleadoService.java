@@ -82,13 +82,16 @@ public class EmpleadoService {
         int cantidadInasistencias = empleadoRepository.calcularInasistenciasNoJustificadas(empleado.getId_empleado());
         double porcentajeDescuentoPorDia = 0.15;
         double porcentajeDescuentoTotal = porcentajeDescuentoPorDia * cantidadInasistencias;
+
         int sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado());
         double descuentoTotal = sueldoFijo * porcentajeDescuentoTotal;
+
+        //System.out.println("Cantidad de inasistencias: "+cantidadInasistencias);
+        //System.out.println("Sueldo Fijo: "+sueldoFijo);
+
+
         return descuentoTotal;
     }//fin calcularDescuentoInasistencias
-
-
-
 
 
 
@@ -121,6 +124,7 @@ public class EmpleadoService {
         //Se obtienen los dias transcurridos
         TimeUnit unidadMedida = TimeUnit.DAYS;
         long diasTranscurridos = unidadMedida.convert(tiempoTranscurrido, TimeUnit.MILLISECONDS);
+        
         //Se calculan los años de servicio (int)
         Double calculoYears = diasTranscurridos / daysPerYear;
         int yearsService = calculoYears.intValue();
@@ -170,6 +174,18 @@ public class EmpleadoService {
         
     }// fin calcular bonificacion por tiempo de servicio
 
+    
+    //Metodo para calcular la bonificacion por horas extras de un empleado
+    public double calcularBonificacionHorasExtras(EmpleadoEntity empleado){
+
+        int cantidadHorasExtras = empleadoRepository.consultarCantidadHorasExtras(empleado.getId_empleado());
+        int montoHoraExtra = empleadoRepository.consultarMontoHorasExtras(empleado.getId_empleado());
+
+        //se retorna la bonificacion por horas extras del empleado
+        double bonificacionHorasExtras = montoHoraExtra * cantidadHorasExtras;
+        return bonificacionHorasExtras;
+
+    }//fin calcularBOnificacionHorasExtras
 
 
 
@@ -177,12 +193,6 @@ public class EmpleadoService {
 
 
 
-
-//BORRAR
-//public int prueba(Long id){
-
-  //  return empleadoRepository.prueba(id);
-//} 
 
 
 
@@ -210,6 +220,9 @@ public class EmpleadoService {
         double descuentoInasistencias = 0.0;
         double descuentoAtrasos = 0.0;
         double bonificacionTiempoServicio = 0.0;
+        double bonificacionHorasExtras = 0.0;
+
+        double sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado())
 
     
         //se calculan los descuentos
@@ -219,11 +232,13 @@ public class EmpleadoService {
         //FALTAN LOS DESCUENTOS POR ATRASOS
 
         //Se calcula la bonificacion por horas extras
+        bonificacionHorasExtras = calcularBonificacionHorasExtras(empleado);
 
         //Se calcula la bonificacion por años de servicio
         bonificacionTiempoServicio = calcularBonificacionTiempoServicio(empleado);
 
-
+        //Finalmente, se obtiene el sueldo final
+        sueldoFinal = sueldoFijo + bonificacionHorasExtras + bonificacionTiempoServicio - descuentoCotizacionPlanSalud - descuentoCotizacionPrevisional - descuentoInasistencias - descuentoAtrasos;
 
         return sueldoFinal;
 
