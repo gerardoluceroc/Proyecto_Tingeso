@@ -35,5 +35,57 @@
 </tbody>
 </table>
 
+
+<h1>Importacion de marcas desde el reloj</h1>
+<p>Seleccione el archivo con las marcas de reloj</p>
+<input type="file" id="archivoMarcas" />
+
+
+<script>
+
+  document.querySelector('#archivoMarcas').addEventListener('change', leerArchivo, false);
+
+  function leerArchivo(e){
+
+    const archivo = e.target.files[0];
+    if(!archivo){
+      console.log("Error al cargar el archivo");
+      return ;
+    }
+
+    const lector = new FileReader();
+    lector.readAsText(archivo);
+    console.log("Archivo Leido\n");
+    lector.onload = function(e) {
+      console.log("El contenido del archivo es:\n",e.target.result);
+      var contenido = e.target.result;
+      console.log("Hola:\n", contenido);
+
+    // e.target.result should contain the text
+    };
+
+
+
+  }//fin leer archivo
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

@@ -222,7 +222,7 @@ public class EmpleadoService {
         double bonificacionTiempoServicio = 0.0;
         double bonificacionHorasExtras = 0.0;
 
-        double sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado())
+        double sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado());
 
     
         //se calculan los descuentos
