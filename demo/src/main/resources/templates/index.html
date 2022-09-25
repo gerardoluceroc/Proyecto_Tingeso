@@ -42,6 +42,8 @@
 
 
 <script>
+  
+  console.log("Acabo de entrar al script js\n");
 
   document.querySelector('#archivoMarcas').addEventListener('change', leerArchivo, false);
 
@@ -56,13 +58,90 @@
     const lector = new FileReader();
     lector.readAsText(archivo);
     console.log("Archivo Leido\n");
-    lector.onload = function(e) {
+    lector.onload = async function(e) {
       console.log("El contenido del archivo es:\n",e.target.result);
       var contenido = e.target.result;
       console.log("Hola:\n", contenido);
 
+      //Se realiza un split para obtener cada linea del contenido del archivo
+      var spliteo = contenido.split('\n');
+      console.log("spliteo[0] = ",spliteo[0],"\n");
+      console.log("spliteo[1] = ",spliteo[1],"\n");
+      console.log("spliteo[2] = ",spliteo[2],"\n");
+
+      //Se obtiene el largo del array
+      var cantidadMarcas = spliteo.length;
+      var i = 0;
+      console.log("El largo del array es ",cantidadMarcas,"\n");
+
+      //Mientras se evalua cada linea del archivo
+      while(i<cantidadMarcas){
+
+        //se separa cada caracteristica de
+
+
+
+        i = i + 1;
+      }//fin while
+
+      //mpleados (apellidos, fecha_ingreso,fecha_nacimiento,nombres,rut,id_categoria) 
+//VALUES ("Lucero Cordova","2010-01-01","1998-11-20","Gerardo Antonio","19919462-3",1);
+      let jsonEjemplo = {
+              "rut" : "19.919.462-3",
+              "nombres" : "Jerardo Antonio",
+              "apellidos" : "Lusero Cordoba",
+              "fecha_nacimiento" : "1998-11-20",
+              "fecha_ingreso" : "2010-01-01",
+              "id_categoria" : "1",
+            };
+
+
+
+/* CODIGO PRUEBA      
+$.ajax({
+      type: "post",
+      contentType : 'application/json; charset=utf-8',
+      dataType : 'json',
+      url: "http://localhost:33060/enviarpost",
+      data: JSON.stringify(jsonEjemplo), 
+      success :function(result) {
+
+        return "todo salio bien\n";
+       // do what ever you want with data
+     }
+    })
+*/
+
+//Prueba de CRUD con fetch
+      const request = await fetch('/enviarpost', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonEjemplo)
+      });
+      //const usuarioEjemplo = await request.json();
+      //console.log("Post enviado y se recibió respuesta");
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // e.target.result should contain the text
-    };
+    };//fin function(e)
 
 
 

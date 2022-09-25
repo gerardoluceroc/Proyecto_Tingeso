@@ -6,8 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.proyectoMaven.demo.entities.CategoriaEmpleadoEntity;
 import com.proyectoMaven.demo.entities.EmpleadoEntity;
 import com.proyectoMaven.demo.repositories.EmpleadoRepository;
 import com.proyectoMaven.demo.services.EmpleadoService;
@@ -66,6 +69,25 @@ public class EmpleadoController {
         return "index";
 
 
+    }
+
+    //prueba de envío post
+    @RequestMapping(value= "/enviarpost", method = RequestMethod.POST)
+
+    public  String  recibe(@RequestBody EmpleadoEntity empleado){
+
+        System.out.println("Post recibido de pana");
+        System.out.println("rut : "+empleado.getRut());
+        System.out.println("nombres : "+empleado.getNombres());
+        System.out.println("apellidos : "+empleado.getApellidos());
+        System.out.println("fecha_nacimiento : "+empleado.getFecha_nacimiento());
+        System.out.println("fecha_ingreso : "+empleado.getFecha_ingreso());
+        System.out.println("id_categoria : "+empleado.getCategoria());
+        System.out.println("id : "+empleado.getId_empleado());
+
+        System.out.println("Ahora printearé el objeto entero\n"+empleado);
+        
+        return "index";
     }
 
   //  */
