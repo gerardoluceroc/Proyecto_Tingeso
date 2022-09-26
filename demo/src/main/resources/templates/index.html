@@ -64,7 +64,10 @@
       console.log("Hola:\n", contenido);
 
       //Se realiza un split para obtener cada linea del contenido del archivo
-      var spliteo = contenido.split('\n');
+      var lineas = contenido.split("\r");
+
+
+      var spliteo = contenido.split('\n');//borrar
       console.log("spliteo[0] = ",spliteo[0],"\n");
       console.log("spliteo[1] = ",spliteo[1],"\n");
       console.log("spliteo[2] = ",spliteo[2],"\n");
@@ -74,55 +77,78 @@
       var i = 0;
       console.log("El largo del array es ",cantidadMarcas,"\n");
 
-      //Mientras se evalua cada linea del archivo
-      while(i<cantidadMarcas){
+      //Se crea el objeto a enviar
+      let listadoMarcasReloj = [];
+      let marcaReloj = {};
+      //Mientras se evalua cada linea del archivo 
+      //el +1 es para llegar hasta la penultima linea solamente
+      //ya que ira leyendo 2 lineas a la vez.
+      while(i+1<cantidadMarcas){
 
-        //se separa cada caracteristica de
+        const posicionFechaMarca = 0;
+        const posicionHoraMarca = 1;
+        const posicionRutEmpleado = 2;
+        let marcaObjeto = {};
+        
+
+        //se guardan las 2 primeras lineas que en teoría pertenecen a la marca de reloj de un dia específico
+        //lineas[i].split("\n");
+        //lineas[i+1] = lineas[i+1].split("\n");
+
+        let marcaEntrada = lineas[i].split(";");
+        let marcaSalida = lineas[i+1].split(";");
+
+        //Se obtienen los datos que se necesitan
+        let horaEntrada = marcaEntrada[posicionHoraMarca];
+        let rutEmpleado = marcaEntrada[posicionRutEmpleado];
+        let horaSalida = marcaSalida[posicionHoraMarca];
+        let fecha;
+
+        //ESte if es pq por alguna razon tengo un problema leyendo la primera cadena
+        if(i == 0){ 
+          fecha = marcaEntrada[posicionFechaMarca].split("\n")[0];
+        }else{
+          fecha = marcaEntrada[posicionFechaMarca].split("\n")[1];
+
+        }
+
+        //Se agregan los datos al objeto para enviarlo como JSON
+        marcaObjeto.hora_entrada = horaEntrada;
+        marcaObjeto.hora_salida = horaSalida;
+        marcaObjeto.rut_empleado = rutEmpleado;
+        marcaObjeto.fecha = fecha;
+
+        //Se agrega al listado final
+        listadoMarcasReloj.push(marcaObjeto);
+
+        console.log("Se entro al while y tomaré 2 lines");
+        console.log("rutEmpleado: ",rutEmpleado,"\n");
+        console.log("horaEntrada: ",horaEntrada,"\n");
+        console.log("horaSalida: ",horaSalida,"\n");
 
 
 
-        i = i + 1;
+        i = i + 2;
       }//fin while
 
-      //mpleados (apellidos, fecha_ingreso,fecha_nacimiento,nombres,rut,id_categoria) 
-//VALUES ("Lucero Cordova","2010-01-01","1998-11-20","Gerardo Antonio","19919462-3",1);
-      let jsonEjemplo = {
-              "rut" : "19.919.462-3",
-              "nombres" : "Jerardo Antonio",
-              "apellidos" : "Lusero Cordoba",
-              "fecha_nacimiento" : "1998-11-20",
-              "fecha_ingreso" : "2010-01-01",
-              "id_categoria" : "1",
-            };
+      console.log("El listado de marcas es:\n",listadoMarcasReloj,"\n");
 
-
-
-/* CODIGO PRUEBA      
-$.ajax({
-      type: "post",
-      contentType : 'application/json; charset=utf-8',
-      dataType : 'json',
-      url: "http://localhost:33060/enviarpost",
-      data: JSON.stringify(jsonEjemplo), 
-      success :function(result) {
-
-        return "todo salio bien\n";
-       // do what ever you want with data
-     }
-    })
-*/
-
-//Prueba de CRUD con fetch
-      const request = await fetch('/enviarpost', {
+      //Se envia el listado de marcas con formato JSON
+      const request = await fetch('/addMarcas', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(jsonEjemplo)
+        body: JSON.stringify(listadoMarcasReloj)
       });
-      //const usuarioEjemplo = await request.json();
-      //console.log("Post enviado y se recibió respuesta");
+
+
+
+
+
+
+   
       
 
 
@@ -135,7 +161,44 @@ $.ajax({
 
 
 
+          /* BORRAR
+      let jsonEjemplo = {
+              "rut" : "19.919.462-3",
+              "nombres" : "Jerardo Antonio",
+              "apellidos" : "Lusero Cordoba",
+              "fecha_nacimiento" : "1998-11-20",
+              "fecha_ingreso" : "2010-01-01",
+              "id_categoria" : "1",
+            };
 
+
+
+ CODIGO PRUEBA      
+$.ajax({
+      type: "post",
+      contentType : 'application/json; charset=utf-8',
+      dataType : 'json',
+      url: "http://localhost:33060/enviarpost",
+      data: JSON.stringify(jsonEjemplo), 
+      success :function(result) {
+
+        return "todo salio bien\n";
+       // do what ever you want with data
+     }
+    })
+
+    //Prueba de CRUD con fetch
+      const request = await fetch('/enviarpost', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonEjemplo)
+      });
+      //const usuarioEjemplo = await request.json();
+      //console.log("Post enviado y se recibió respuesta");
+*/
 
 
 

@@ -18,21 +18,22 @@ public class MarcaIngresoSalidaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private Long id_marcaIngresoSalida;
+    private Long id_marca_ingreso_salida;
 
     private String hora_entrada;
     private String hora_salida;
     private String fecha;
+    private String rut_empleado;
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     private EmpleadoEntity empleado;
 
-    public Long getId_marcaIngresoSalida() {
-        return this.id_marcaIngresoSalida;
+    public Long getId_marca_ingreso_salida() {
+        return this.id_marca_ingreso_salida;
     }
 
-    public void setId_marcaIngresoSalida(Long id_marcaIngresoSalida) {
-        this.id_marcaIngresoSalida = id_marcaIngresoSalida;
+    public void setId_marca_ingreso_salida(Long id_marca_ingreso_salida) {
+        this.id_marca_ingreso_salida = id_marca_ingreso_salida;
     }
 
     public String getHora_entrada() {
@@ -59,6 +60,14 @@ public class MarcaIngresoSalidaEntity {
         this.fecha = fecha;
     }
 
+    public String getRut_empleado() {
+        return this.rut_empleado;
+    }
+
+    public void setRut_empleado(String rut_empleado) {
+        this.rut_empleado = rut_empleado;
+    }
+
     public EmpleadoEntity getEmpleado() {
         return this.empleado;
     }
@@ -66,9 +75,6 @@ public class MarcaIngresoSalidaEntity {
     public void setEmpleado(EmpleadoEntity empleado) {
         this.empleado = empleado;
     }
-
-
-    //Getters y Setters de los atributos
 
     
     
