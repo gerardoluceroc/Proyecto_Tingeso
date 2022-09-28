@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.proyectoMaven.demo.entities.CategoriaEmpleadoEntity;
 import com.proyectoMaven.demo.entities.EmpleadoEntity;
+import com.proyectoMaven.demo.entities.MarcaIngresoSalidaEntity;
 import com.proyectoMaven.demo.repositories.EmpleadoRepository;
 import com.proyectoMaven.demo.services.EmpleadoService;
 
@@ -72,7 +73,33 @@ public class EmpleadoController {
     }
 
     //prueba de envío post
-    @RequestMapping(value= "/enviarpost", method = RequestMethod.POST)
+    @RequestMapping(value= "/empleados/enviarmarcas", method = RequestMethod.POST)
+    public String agregarMarcasIngresoSalida(@RequestBody ArrayList<MarcaIngresoSalidaEntity> marcasIngresoSalida){
+
+        int i=0;
+        int cantidadMarcas = marcasIngresoSalida.size();
+        System.out.println("cantidad de marcas es"+cantidadMarcas);
+        while(i < cantidadMarcas){
+
+            System.out.println("Las marcas son:");
+            System.out.println(marcasIngresoSalida.get(i));
+            i=i+1;
+
+
+        }
+        System.out.println("ahora retornaré index");
+
+        return "index";
+    }
+
+@
+
+
+
+
+
+
+
 
     public  String  recibe(@RequestBody EmpleadoEntity empleado){
 

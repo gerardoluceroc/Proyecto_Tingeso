@@ -134,7 +134,7 @@
       console.log("El listado de marcas es:\n",listadoMarcasReloj,"\n");
 
       //Se envia el listado de marcas con formato JSON
-      const request = await fetch('/addMarcas', {
+      const request = await fetch('/empleados/enviarmarcas', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
