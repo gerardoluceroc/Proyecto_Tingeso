@@ -72,6 +72,8 @@ public class EmpleadoController {
 
     }
 
+
+    /* AHORA ESTA EN EL CONTROLADOR DE LA MARCA INGRESO SALIDA 
     //prueba de envío post
     @RequestMapping(value= "/empleados/enviarmarcas", method = RequestMethod.POST)
     public String agregarMarcasIngresoSalida(@RequestBody ArrayList<MarcaIngresoSalidaEntity> marcasIngresoSalida){
@@ -92,7 +94,7 @@ public class EmpleadoController {
         return "index";
     }
 
-@
+    */
 
 
 
@@ -101,7 +103,7 @@ public class EmpleadoController {
 
 
 
-    public  String  recibe(@RequestBody EmpleadoEntity empleado){
+    public String recibe(@RequestBody EmpleadoEntity empleado){
 
         System.out.println("Post recibido de pana");
         System.out.println("rut : "+empleado.getRut());
@@ -117,5 +119,5 @@ public class EmpleadoController {
         return "index";
     }
 
-  //  */
+    
 }

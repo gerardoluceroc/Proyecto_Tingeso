@@ -35,6 +35,10 @@ public interface EmpleadoRepository extends CrudRepository<EmpleadoEntity, Long>
     @Query(value = "select c.monto_hora_extra from categorias_empleados c, empleados e where e.id_categoria = c.id_categoria and e.id_empleado = :id" ,nativeQuery = true)
     int consultarMontoHorasExtras(@Param("id") Long id);
 
+    @Query(value = "select * from empleados e where e.rut = :rut",nativeQuery = true)
+    EmpleadoEntity getEmpleadoByRut(@Param("rut") String rut);
+    
+
 
 
 
