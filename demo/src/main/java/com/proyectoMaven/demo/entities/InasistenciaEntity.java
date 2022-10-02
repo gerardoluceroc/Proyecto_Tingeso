@@ -20,13 +20,13 @@ public class InasistenciaEntity {
     @Column(unique = true, nullable = false)
     private Long id_inasistencia;
 
-    private Date fecha;
+    private String fecha;
     private boolean justificativoAprobado;
+    private String rutEmpleado;
+    private String motivoInasistencia;
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     private EmpleadoEntity empleado;
-
-    //Getters y Setters de los atributos
 
     public Long getId_inasistencia() {
         return this.id_inasistencia;
@@ -36,11 +36,11 @@ public class InasistenciaEntity {
         this.id_inasistencia = id_inasistencia;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return this.fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -56,6 +56,22 @@ public class InasistenciaEntity {
         this.justificativoAprobado = justificativoAprobado;
     }
 
+    public String getRutEmpleado() {
+        return this.rutEmpleado;
+    }
+
+    public void setRutEmpleado(String rutEmpleado) {
+        this.rutEmpleado = rutEmpleado;
+    }
+
+    public String getMotivoInasistencia() {
+        return this.motivoInasistencia;
+    }
+
+    public void setMotivoInasistencia(String motivoInasistencia) {
+        this.motivoInasistencia = motivoInasistencia;
+    }
+
     public EmpleadoEntity getEmpleado() {
         return this.empleado;
     }
@@ -65,7 +81,8 @@ public class InasistenciaEntity {
     }
 
 
-    //Getters y Setters de los atributos
+
+    
 
     
     

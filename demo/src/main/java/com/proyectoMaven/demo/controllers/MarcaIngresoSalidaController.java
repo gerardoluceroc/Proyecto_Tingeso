@@ -18,7 +18,7 @@ public class MarcaIngresoSalidaController {
 	MarcaIngresoSalidaService marcaIngresoSalidaService;
 
 
-    //prueba de envío post
+    //Controlador para recibir las marcas de ingreso salida e ingresarlas en la base datos
     @RequestMapping(value= "/empleados/enviarmarcas", method = RequestMethod.POST)
     public String agregarMarcasIngresoSalida(@RequestBody ArrayList<MarcaIngresoSalidaEntity> marcasIngresoSalida){
 

@@ -20,13 +20,16 @@ public class HoraExtraEntity {
     @Column(unique = true, nullable = false)
     private Long id_horaExtra;
 
-    private Date fecha;
-    private boolean horaExtraAprobada;
+    private String fecha;
+    private String rutEmpleado;
+    private String cantidadHorasAprobadas;
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     private EmpleadoEntity empleado;
 
+
     //Getters y Setters de los atributos
+
 
     public Long getId_horaExtra() {
         return this.id_horaExtra;
@@ -36,25 +39,30 @@ public class HoraExtraEntity {
         this.id_horaExtra = id_horaExtra;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return this.fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public boolean isHoraExtraAprobada() {
-        return this.horaExtraAprobada;
+    public String getRutEmpleado() {
+        return this.rutEmpleado;
     }
 
-    public boolean getHoraExtraAprobada() {
-        return this.horaExtraAprobada;
+    public void setRutEmpleado(String rutEmpleado) {
+        this.rutEmpleado = rutEmpleado;
     }
 
-    public void setHoraExtraAprobada(boolean horaExtraAprobada) {
-        this.horaExtraAprobada = horaExtraAprobada;
+    public String getCantidadHorasAprobadas() {
+        return this.cantidadHorasAprobadas;
     }
+
+    public void setCantidadHorasAprobadas(String cantidadHorasAprobadas) {
+        this.cantidadHorasAprobadas = cantidadHorasAprobadas;
+    }
+
 
     public EmpleadoEntity getEmpleado() {
         return this.empleado;
@@ -63,5 +71,5 @@ public class HoraExtraEntity {
     public void setEmpleado(EmpleadoEntity empleado) {
         this.empleado = empleado;
     }
-    
+
 }

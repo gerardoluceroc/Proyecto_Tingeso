@@ -6,46 +6,76 @@
 </head>
 
 <body>
-  <p>Esta página web es una página HTML válidaa.</p>
-
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-        <th>id</th>
-        <th>nombres</th>
-        <th>apellidos</th>
-        <th>rut</th>
-        <th>fecha de nacimiento</th>
-        <th>fecha de ingreso</th>
-
-        
-    </tr>
-  </thead>
-<tbody>
-    <tr th:each="empleado:${empleados}">
-        <td th:text="${empleado.id_empleado}"></td>
-        <td th:text="${empleado.nombres}"></td>
-        <td th:text="${empleado.apellidos}"></td>
-        <td th:text="${empleado.rut}"></td>
-        <td th:text="${empleado.fecha_nacimiento}"></td>
-        <td th:text="${empleado.fecha_ingreso}"></td>
-        
-        
-    </tr>
-</tbody>
-</table>
 
 
-<h1>Importacion de marcas desde el reloj</h1>
+<h1>Plataforma de Calculo de Planillas</h1>
+
+<h3>Ingreso de justificativos</h3>
+<p>Seleccione aquí para ingresar un justificativo de inasitencia</p>
+<button id="botonJustificativo">Ingreso de Justificativo</button>
+
+<form id="formularioJustificativo" action="/inasistencia/enviarjustificativo" method="post">
+    <ul>
+     <li>
+       <label for="rut">Rut del empleado(con puntos y guión):</label>
+       <input type="text" id="rut" name="rutEmpleado">
+     </li>
+     <li>
+       <label for="fechaInasistencia">Fecha de Inasistencia (yyyy-mm-dd):</label>
+       <input type="text" id="fechaInasistencia" name="fecha">
+     </li>
+     <li>
+       <label for="motivoInasistencia">Ingrese el motivo de la inasistencia:</label>
+       <textarea id="motivoInasistencia" name="motivoInasistencia"></textarea>
+     </li>
+     <li class="button">
+        <button type="submit">Enviar</button>
+      </li>
+    </ul>
+
+          
+</form>
+
+
+<h3>Ingreso de autorizaciones para horas extras</h3>
+<p>Seleccione aquí para ingresar una autorización</p>
+<button id="botonAutorizacion">Ingreso de Autorización</button>
+
+<form id="formularioAutorizacionHorasExtras" action="/horas_extras/enviarautorizacion" method="post">
+    <ul>
+     <li>
+       <label for="rut">Rut del empleado(con puntos y guión):</label>
+       <input type="text" id="rut" name="rutEmpleado">
+     </li>
+     <li>
+       <label for="fechaHoraExtra">Fecha de horas extras (yyyy-mm-dd):</label>
+       <input type="text" id="fechaHoraExtra" name="fecha">
+     </li>
+     <li>
+       <label for="cantidadHoras">Cantidad de horas aprobadas:</label>
+       <input type="text" id="cantidadHoras" name="cantidadHorasAprobadas">
+     </li>
+     <li class="button">
+        <button type="submit">Enviar</button>
+      </li>
+    </ul>
+
+          
+</form>
+
+   
+
+
+
+<h3>Ingreso de marcas de reloj</h3>
 <p>Seleccione el archivo con las marcas de reloj</p>
-<input type="file" id="archivoMarcas" />
+<input type="file" id="archivoMarcas"/>
 
 
 <script>
-  
-  console.log("Acabo de entrar al script js\n");
+console.log("Acabo de entrar al script js\n");
 
-  document.querySelector('#archivoMarcas').addEventListener('change', leerArchivo, false);
+document.querySelector('#archivoMarcas').addEventListener('change', leerArchivo, false);
 
   function leerArchivo(e){
 
@@ -143,73 +173,71 @@
         body: JSON.stringify(listadoMarcasReloj)
       });
 
-
-
-
-
-
-   
-      
-
-
-
-
-
-
-
-
-
-
-
-          /* BORRAR
-      let jsonEjemplo = {
-              "rut" : "19.919.462-3",
-              "nombres" : "Jerardo Antonio",
-              "apellidos" : "Lusero Cordoba",
-              "fecha_nacimiento" : "1998-11-20",
-              "fecha_ingreso" : "2010-01-01",
-              "id_categoria" : "1",
-            };
-
-
-
- CODIGO PRUEBA      
-$.ajax({
-      type: "post",
-      contentType : 'application/json; charset=utf-8',
-      dataType : 'json',
-      url: "http://localhost:33060/enviarpost",
-      data: JSON.stringify(jsonEjemplo), 
-      success :function(result) {
-
-        return "todo salio bien\n";
-       // do what ever you want with data
-     }
-    })
-
-    //Prueba de CRUD con fetch
-      const request = await fetch('/enviarpost', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(jsonEjemplo)
-      });
-      //const usuarioEjemplo = await request.json();
-      //console.log("Post enviado y se recibió respuesta");
-*/
-
-
-
-
     // e.target.result should contain the text
     };//fin function(e)
 
+    }//fin leer archivo
+
+///////////////////////////Evento boton justificativo //////////////////////////////////////////
+
+    //boton para ingresar el justificativo
+    var botonJustificativo = document.getElementById('botonJustificativo');
+    document.getElementById("formularioJustificativo").style.display = 'none';
+    var mostrandoFormularioJustificativo = 1;
+
+    function desplegarFormularioJustificativo(){
+
+        console.log("El botón de justificativos fue presionado");
+
+        //Si al presionar el botón el formulario es visible, se oculta.
+        if(mostrandoFormularioJustificativo){
+            document.getElementById("formularioJustificativo").style.display = 'none';
+            mostrandoFormularioJustificativo = 0;
+
+        }else{ //Sino, se muestra
+            document.getElementById("formularioJustificativo").style.display = '';
+            mostrandoFormularioJustificativo = 1;
+        }
+        
 
 
-  }//fin leer archivo
+    }//fin desplegarFormularioJustificativo
 
+    //Si el botón es presionado, se despliega el formulario para los justificativos
+    botonJustificativo.addEventListener("click",desplegarFormularioJustificativo,true);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+//////////////////////////////////Evento boton autorizaciones horas extras//////////////////////////////////////////////////////////////////
+
+
+    //boton para ingresar la autorización
+    var botonAutorizacion = document.getElementById('botonAutorizacion');
+    document.getElementById("formularioAutorizacionHorasExtras").style.display = 'none';
+    var mostrandoFormularioAutorizacion = 1;
+
+    function desplegarFormularioAutorizacion(){
+
+        //Si al presionar el botón el formulario es visible, se oculta.
+        if(mostrandoFormularioAutorizacion){
+            document.getElementById("formularioAutorizacionHorasExtras").style.display = 'none';
+            mostrandoFormularioAutorizacion = 0;
+
+        }else{ //Sino, se muestra
+            document.getElementById("formularioAutorizacionHorasExtras").style.display = '';
+            mostrandoFormularioAutorizacion = 1;
+        }
+        
+
+
+    }//fin desplegarFormularioAutorizacion
+
+    //Si el botón es presionado, se despliega el formulario para las autorizaciones de horas extras
+    botonAutorizacion.addEventListener("click",desplegarFormularioAutorizacion,true);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
