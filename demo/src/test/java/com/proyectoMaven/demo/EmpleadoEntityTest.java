@@ -93,7 +93,7 @@ class EmpleadoEntityTest {
         int yearsOfService = empleadoService.calcularYearsOfService(empleado);
         assertEquals(0, yearsOfService, 0.0);
     }
-
+    @Test
     void calcularBonificacionTiempoServicio(){
 
         CategoriaEmpleadoEntity categoria = new CategoriaEmpleadoEntity();
@@ -111,7 +111,7 @@ class EmpleadoEntityTest {
         double bonificacionTiempoServicio = empleadoService.calcularBonificacionTiempoServicio(empleado);
         assertEquals(0, bonificacionTiempoServicio, 0.0);
     }
-
+    @Test
     void getSueldo_fijo_mensual(){
 
         CategoriaEmpleadoEntity categoria = new CategoriaEmpleadoEntity();
@@ -129,5 +129,25 @@ class EmpleadoEntityTest {
         double sueldoFijoMensual = empleadoService.getSueldo_fijo_mensual(empleado);
         assertEquals(1700000, sueldoFijoMensual, 0.0);
     }
+
+    @Test
+    void calcularBonificacionHorasExtras(){
+
+        CategoriaEmpleadoEntity categoria = new CategoriaEmpleadoEntity();
+        categoria.setMonto_hora_extra(25000);
+        categoria.setSueldo_fijo_mensual(1700000);
+        categoria.setTipo_categoria("A");
+
+        empleado.setRut("19.919.462-3");
+        empleado.setNombres("Gerardo Antonio");
+        empleado.setApellidos("Lucero Cordova");
+        empleado.setFecha_ingreso(Date.valueOf("2010-01-01"));
+        empleado.setFecha_nacimiento(Date.valueOf("1998-11-20"));
+        empleado.setCategoria(categoria);
+
+        double bonificacionHorasExtras = empleadoService.calcularBonificacionHorasExtras(empleado);
+        assertEquals(0, bonificacionHorasExtras, 0.0);
+    }
+
 
 }
