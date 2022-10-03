@@ -38,11 +38,6 @@ public class EmpleadoService {
 
     }
 
-
-
-
-
-
     //Metodo para obtener un stirng con la categoria de un empleado
     public String consultarCategoriaEmpleado(EmpleadoEntity empleado){
         CategoriaEmpleadoEntity categoria = categoriaEmpleadoRepository.buscarCategoriaById(empleado.getId_empleado());
@@ -50,6 +45,15 @@ public class EmpleadoService {
         String categoriaString = categoria.getTipo_categoria();
         return categoriaString;
     }
+    
+
+
+
+
+    
+
+
+
     //Metodo para calcular el descuento por prevision social de un empleado
     public static double calcularDescuentoCotizacionPrevisional(EmpleadoEntity empleado){
 
@@ -65,10 +69,6 @@ public class EmpleadoService {
         return descuentoCotizacionPrevisional;
 
     }//Fin calcularDescuentoCotizacionSocial()
-
-
-
-
 
      //Metodo para calcular el descuento por la cotizacion del plan de salud de un empleado
      public static double calcularDescuentoCotizacionPlanSalud(EmpleadoEntity empleado){
@@ -86,8 +86,6 @@ public class EmpleadoService {
 
     }//Fin calcularDescuentoCotizacionPlanSalud()
 
-
-
     //Metodo para calcular el descuento por inasistencias de un empleado
     public double calcularDescuentoInasistenciasNoJustificadas(EmpleadoEntity empleado){
 
@@ -104,8 +102,6 @@ public class EmpleadoService {
 
         return 0;//no se usara esta función por lo que retornará cero por ahora
     }//fin calcularDescuentoInasistencias
-
-
 
     //Método para calcular la cantidad de años que lleva un empleado
     public int calcularYearsOfService(EmpleadoEntity empleado){
@@ -134,10 +130,6 @@ public class EmpleadoService {
 
 
     }//fin calcularYearsOfService
-
-
-
-
 
     //Metodo para calcular la bonificacion de un empleado por años de servicio
     public double calcularBonificacionTiempoServicio(EmpleadoEntity empleado){
@@ -188,8 +180,6 @@ public class EmpleadoService {
         
     }// fin calcular bonificacion por tiempo de servicio
 
-
-
     //Metodo que obtiene el sueldo fijo mensual de un empleado
     public double getSueldo_fijo_mensual(EmpleadoEntity empleado){
 
@@ -237,7 +227,6 @@ public class EmpleadoService {
         }else{return sueldoBruto;}
 
     }
-
 
     //Metodo para calcular el sueldo final de un empleado
     public double calcularSueldoFinal(EmpleadoEntity empleado){
