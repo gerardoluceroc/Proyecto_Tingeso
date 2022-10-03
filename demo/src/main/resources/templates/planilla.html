@@ -8,10 +8,10 @@
 <body>
 
 
-<h1>Plataforma de Calculo de Planillas</h1>
+<h1>Plataforma de Calculo de Planillassssssssssssssssss</h1>
 
 <h3>Ingreso de justificativos</h3>
-<p>Seleccione aquí para ingresar un justificativo de inasistencia</p>
+<p>Seleccione aquí para ingresar un justificativo de inasitencia</p>
 <button id="botonJustificativo">Ingreso de Justificativo</button>
 
 <form id="formularioJustificativo" action="/inasistencia/enviarjustificativo" method="post">
@@ -78,35 +78,24 @@
 <table class="table" id="tablaPlanilla">
   <thead class="thead-dark">
     <tr>
-        <th>Rut</th>
+        <th>id</th>
         <th>nombres</th>
-        <th>categoría</th>
-        <th>Años de servicio</th>
-        <th>Sueldo fijo mensual</th>
-        <th>Bonifacion por años de servicio</th>
-        <th>Total de descuentos</th>
-        <th>Sueldo bruto</th>
-        <th>Cotización previsional</th>
-        <th>Cotización plan de salud</th>
-        <th>Sueldo final</th>
+        <th>apellidos</th>
+        <th>rut</th>
+        <th>fecha de nacimiento</th>
+        <th>fecha de ingreso</th>
 
         
     </tr>
   </thead>
 <tbody>
-    <tr th:each="planilla:${planillaSueldos}">
-        <td th:text="${planilla.rut}"></td>
-        <td th:text="${planilla.nombres}"></td>
-        <td th:text="${planilla.categoria}"></td>
-        <td th:text="${planilla.tiempoDeServicio}"></td>
-        <td th:text="${planilla.sueldoFijoMensual}"></td>
-        <td th:text="${planilla.montoBonificacionTiempoServicio}"></td>
-        <td th:text="${planilla.montoDescuentos}"></td>
-        <td th:text="${planilla.sueldoBruto}"></td>
-        <td th:text="${planilla.cotizacionPrevisional}"></td>
-        <td th:text="${planilla.cotizacionSalud}"></td>
-        <td th:text="${planilla.sueldoFinal}"></td>
-
+    <tr th:each="empleado:${empleados}">
+        <td th:text="${empleado.id_empleado}"></td>
+        <td th:text="${empleado.nombres}"></td>
+        <td th:text="${empleado.apellidos}"></td>
+        <td th:text="${empleado.rut}"></td>
+        <td th:text="${empleado.fecha_nacimiento}"></td>
+        <td th:text="${empleado.fecha_ingreso}"></td>
                
     </tr>
 </tbody>
@@ -287,36 +276,6 @@ document.querySelector('#archivoMarcas').addEventListener('change', leerArchivo,
 
 
 
-
-
-//////////////////////////// Boton calculo de planilla de sueldos/////////////////////////////////////////////////////////77
-
-    //boton para calcular la planilla de sueldos
-    var botonCalculoPlanilla = document.getElementById('botonCalculoPlanilla');
-    document.getElementById("tablaPlanilla").style.display = '';
-    var mostrandoPlanilla = 0;
-
-    async function mostrarPlanilla(){
-
-        //Si al presionar el botón la planilla es visible, se oculta.
-        if(mostrandoPlanilla){
-            document.getElementById("tablaPlanilla").style.display = 'none';
-            mostrandoPlanilla = 0;
-
-        }else{ //Sino, se muestra
-            fetch("/empleados/planillas");
-            location.replace("/empleados/planillas");
-            document.getElementById("tablaPlanilla").style.display = '';
-            mostrandoPlanilla = 1;
-        }
-        
-
-
-    }//fin mostrarPlanilla
-
-    //Si el botón es presionado, se despliega la planilla con los sueldos
-    botonCalculoPlanilla.addEventListener("click",mostrarPlanilla,true);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

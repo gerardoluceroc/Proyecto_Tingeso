@@ -3,8 +3,10 @@ package com.proyectoMaven.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.proyectoMaven.demo.entities.CategoriaEmpleadoEntity;
 import com.proyectoMaven.demo.entities.EmpleadoEntity;
 import com.proyectoMaven.demo.entities.InasistenciaEntity;
+import com.proyectoMaven.demo.repositories.CategoriaEmpleadoRepository;
 import com.proyectoMaven.demo.repositories.EmpleadoRepository;
 
 import java.time.Instant;
@@ -18,6 +20,8 @@ public class EmpleadoService {
     @Autowired
     EmpleadoRepository empleadoRepository;
 
+    @Autowired
+    CategoriaEmpleadoRepository categoriaEmpleadoRepository;
 
     
     //Metodo para obtener todos los usuarios en la base de datos
@@ -26,8 +30,6 @@ public class EmpleadoService {
         return ((ArrayList<EmpleadoEntity>) empleadoRepository.findAll());
     }
     
-
-
 
     public ArrayList<EmpleadoEntity> buscarEmpleadoPorId(Long valor_id){
 
@@ -38,6 +40,16 @@ public class EmpleadoService {
 
 
 
+
+
+
+    //Metodo para obtener un stirng con la categoria de un empleado
+    public String consultarCategoriaEmpleado(EmpleadoEntity empleado){
+        CategoriaEmpleadoEntity categoria = categoriaEmpleadoRepository.buscarCategoriaById(empleado.getId_empleado());
+        
+        String categoriaString = categoria.getTipo_categoria();
+        return categoriaString;
+    }
     //Metodo para calcular el descuento por prevision social de un empleado
     public static double calcularDescuentoCotizacionPrevisional(EmpleadoEntity empleado){
 
@@ -178,58 +190,68 @@ public class EmpleadoService {
 
 
 
+    //Metodo que obtiene el sueldo fijo mensual de un empleado
+    public double getSueldo_fijo_mensual(EmpleadoEntity empleado){
+
+        double sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado());
+        return sueldoFijo;
+    }
+
+    public double calcularBonificacionHorasExtras(EmpleadoEntity empleado){
+        return 0;
+    }
+
+    public double calcularDescuentosTotales(EmpleadoEntity empleado){
+
+        double descuentoCotizacionPlanSalud = calcularDescuentoCotizacionPlanSalud(empleado);
+        double descuentoCotizacionPrevisional = calcularDescuentoCotizacionPrevisional(empleado);
+        double descuentoInasistencias = calcularDescuentoInasistenciasNoJustificadas(empleado);
+        double descuentoAtrasos = 0;
+        
+        double descuentos = descuentoCotizacionPlanSalud + descuentoCotizacionPrevisional + descuentoInasistencias + descuentoAtrasos;
+        return descuentos;
+    }
+
+    public double calcularBonificacionTotal(EmpleadoEntity empleado){
+        double bonificacionTotal;
+        double bonificacionTiempoServicio = calcularBonificacionHorasExtras(empleado);
+        double bonificacionHorasExtras = calcularBonificacionHorasExtras(empleado);
+
+        bonificacionTotal = bonificacionTiempoServicio + bonificacionHorasExtras;
+        return bonificacionTotal;
+    }
+   
+    public double calcularSueldoBruto(EmpleadoEntity empleado){
 
 
+        //se asume que el sueldo bruto es: sueldo mensual - descuentos + bonos
 
+        double sueldoBruto;
+        double descuentos = calcularDescuentosTotales(empleado);
+        double sueldoFijoMensual = getSueldo_fijo_mensual(empleado);
+        double bonificaciones = calcularBonificacionTotal(empleado);
 
+        sueldoBruto = sueldoFijoMensual + bonificaciones - descuentos;
+        if(sueldoBruto<0){
+            return 0;
+        }else{return sueldoBruto;}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
     //Metodo para calcular el sueldo final de un empleado
-    //Entrada: Entidad Empleado
-    //Salida: Sueldo Final
     public double calcularSueldoFinal(EmpleadoEntity empleado){
+        //se asume que el sueldo final es: sueldo fijo - descuentos
 
-        double sueldoFinal = 0.0;
-        double descuentoCotizacionPlanSalud = 0.0;
-        double descuentoCotizacionPrevisional = 0.0;
-        double descuentoInasistencias = 0.0;
-        double descuentoAtrasos = 0.0;
-        double bonificacionTiempoServicio = 0.0;
-        double bonificacionHorasExtras = 0.0;
+        double sueldoFinal;
+        double descuentos = calcularDescuentosTotales(empleado);
+        double sueldoFijoMensual = getSueldo_fijo_mensual(empleado);
+        sueldoFinal = sueldoFijoMensual - descuentos;
+        
+        if(sueldoFinal < 0){
+            return 0;
+        }else{return sueldoFinal;}
 
-        double sueldoFijo = empleadoRepository.consultarSueldoFijoMensual(empleado.getId_empleado());
-
-    
-        //se calculan los descuentos
-        descuentoCotizacionPlanSalud = calcularDescuentoCotizacionPlanSalud(empleado);
-        descuentoCotizacionPrevisional = calcularDescuentoCotizacionPrevisional(empleado);
-        descuentoInasistencias = calcularDescuentoInasistenciasNoJustificadas(empleado);
-        //FALTAN LOS DESCUENTOS POR ATRASOS
-
-        //Se calcula la bonificacion por horas extras
-        bonificacionHorasExtras = calcularBonificacionHorasExtras(empleado);
-
-        //Se calcula la bonificacion por años de servicio
-        bonificacionTiempoServicio = calcularBonificacionTiempoServicio(empleado);
-
-        //Finalmente, se obtiene el sueldo final
-        sueldoFinal = sueldoFijo + bonificacionHorasExtras +bonificacionTiempoServicio - descuentoCotizacionPlanSalud - descuentoCotizacionPrevisional - descuentoInasistencias - descuentoAtrasos;
-
-        return sueldoFinal;
 
     }
 
@@ -242,18 +264,6 @@ public class EmpleadoService {
 
   
     
-    //Metodo para calcular la bonificacion por horas extras de un empleado
-    public double calcularBonificacionHorasExtras(EmpleadoEntity empleado){
-
-        int cantidadHorasExtras = empleadoRepository.consultarCantidadHorasExtras(empleado.getId_empleado());
-        int montoHoraExtra = empleadoRepository.consultarMontoHorasExtras(empleado.getId_empleado());
-
-        //se retorna la bonificacion por horas extras del empleado
-        double bonificacionHorasExtras = montoHoraExtra * cantidadHorasExtras;
-        //return bonificacionHorasExtras;
-        return 0;
-
-    }//fin calcularBOnificacionHorasExtras
- 
+    
 
 }

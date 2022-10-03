@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.proyectoMaven.demo.entities.CategoriaEmpleadoEntity;
 import com.proyectoMaven.demo.entities.EmpleadoEntity;
 import com.proyectoMaven.demo.entities.MarcaIngresoSalidaEntity;
+import com.proyectoMaven.demo.entities.PlanillaEmpleadoEntity;
 import com.proyectoMaven.demo.repositories.EmpleadoRepository;
 import com.proyectoMaven.demo.services.EmpleadoService;
+import com.proyectoMaven.demo.services.PlanillaEmpleadoService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,16 +28,52 @@ public class EmpleadoController {
     @Autowired
 	EmpleadoService empleadoService;
 
+    @Autowired
+    PlanillaEmpleadoService planillaEmpleadoService;
+
 ///* 
     @GetMapping("/empleados/")
     public List<EmpleadoEntity> obtenerUsuarios(){
         return empleadoService.obtenerUsuarios();
     }
 
-    @GetMapping("/hola/")
-    public String retornar(){
+    //metodo para recibir una petición get y calcular la planilla de sueldos de los empleados
+    //VERSION DE PRUEBA, FUNCIONA BIEN
+    @GetMapping("/empleados/planillassssssssssss")
+	public String calcularPlanilla(Model modelo) {
+    	ArrayList<EmpleadoEntity> empleados=empleadoService.obtenerUsuarios();
+    	modelo.addAttribute("empleados",empleados);
+		return "index";
+	}
+
+    //Metodo para recibir una petición get y calcular la planilla de sueldos de los empleados
+    //METODO FINAL, MODO BETA
+    @GetMapping("empleados/planillas")
+    public String obtenerPlanilla(Model modelo){
+
+        //Se obtienen todos los empleados
+        ArrayList<EmpleadoEntity> empleados = empleadoService.obtenerUsuarios();
+
+        ArrayList<PlanillaEmpleadoEntity> planillaSueldos = new ArrayList<PlanillaEmpleadoEntity>();
+
+        int i = 0;
+        int cantidadEmpleados = empleados.size();
+
+        //Se evalua cada empleado y se obtiene su planilla de sueldo
+        while (i<cantidadEmpleados){
+            
+            PlanillaEmpleadoEntity planilla = planillaEmpleadoService.obtenerPlanilla(empleados.get(i));
+            planillaSueldos.add(planilla);
+            i = i+1;
+        }
+
+        //Se agrega al modelo la planilla con todos los sueldos
+        modelo.addAttribute("planillaSueldos",planillaSueldos);
+
         return "index";
+
     }
+
 
     //meetodo profe
     @GetMapping("/listar")
@@ -71,36 +109,6 @@ public class EmpleadoController {
 
 
     }
-
-
-    /* AHORA ESTA EN EL CONTROLADOR DE LA MARCA INGRESO SALIDA 
-    //prueba de envío post
-    @RequestMapping(value= "/empleados/enviarmarcas", method = RequestMethod.POST)
-    public String agregarMarcasIngresoSalida(@RequestBody ArrayList<MarcaIngresoSalidaEntity> marcasIngresoSalida){
-
-        int i=0;
-        int cantidadMarcas = marcasIngresoSalida.size();
-        System.out.println("cantidad de marcas es"+cantidadMarcas);
-        while(i < cantidadMarcas){
-
-            System.out.println("Las marcas son:");
-            System.out.println(marcasIngresoSalida.get(i));
-            i=i+1;
-
-
-        }
-        System.out.println("ahora retornaré index");
-
-        return "index";
-    }
-
-    */
-
-
-
-
-
-
 
 
     public String recibe(@RequestBody EmpleadoEntity empleado){
