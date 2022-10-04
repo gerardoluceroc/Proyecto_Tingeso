@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  contenedor-mysql: # Nombre de contenedor MYSQL
+    image: mysql
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: tingeso_db
+    ports:
+      - 33060:3306
+  app_tingeso: 
+    container_name: contenedor-tingeso
+    image: gerardoluceroc/proyecto_tingeso_1
+    ports:
+      - "8090:8090"
+    environment:
+      - DB_URL=jdbc:mysql://contenedor-mysql:3306/tingeso_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=admin
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - contenedor-mysql
