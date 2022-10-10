@@ -1,9 +1,10 @@
-- SOLUCIONAR PROBLEMA CON PERMISOS DENEGADOS
+- SOLUCIONAR PROBLEMA CON PERMISOS DENEGADOS al realizar cualquier comando docker sin "sudo"
 sudo gpasswd -a gerardo docker
 
 sudo groupadd docker
 sudo usermod -aG docker gerardo
 su - gerardo
+
 
 - SOLUCIONAR PROBLEMAS DE IMAGEN DOCKER CERRANDOSE
 https://stackoverflow.com/questions/73217146/mysql-container-keep-not-connecting-to-my-container
@@ -16,6 +17,15 @@ git push https://<GITHUB_ACCESS_TOKEN>@github.com/<GITHUB_USERNAME>/<REPOSITORY_
 git push https://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@github.com/gerardoluceroc/https://github.com/gerardoluceroc/Proyecto_Tingeso.git
 
 
+///////////////////////////////COMANDOS DOCKER(ejemplos con MYSQL)/////////////////////////////////////////////////////////////////////////
+- CONSULTAR IMAGENES DOCKER DISPONIBLES EN EL PC
+docker images
+
+- CONSULTAR CONTENEDORES CORRIENDO ACTUALMENTE
+docker ps
+
+- CONSULTAR TODOS LOS CONTENEDORES QUE HAN CORRIDO HISTORICAMENTE
+docker ps -a
 
 - CONSULTAR COMANDOS DE LOS VOLUMENES DE DOCKER
 docker volumes
@@ -27,28 +37,27 @@ docker volume create volumen-mysql
 
 docker run -d -p 33060:3306 --name contenedor-mysql -e MYSQL_ROOT_PASSWORD=admin --mount src=volumen-mysql,dst=/var/lib/mysql mysql
 
-docker run -d -p 33061:3307 --name contenedor-mysql -e MYSQL_ROOT_PASSWORD=admin --mount src=volumen-mysql,dst=/var/lib/mysql mysql
-
+- EJECUTAR CONTENEDOR MYSQL CON VOLUMEN PERO REINICIANDOSE CADA VEZ QUE SE CIERRA
 docker run -d -p 33060:3306 --restart always --name contenedor-mysql -e MYSQL_ROOT_PASSWORD=admin --mount src=volumen-mysql,dst=/var/lib/mysql mysql
 
 
 
-
+- EJECUTAR CONTENEDOR MYSQL (con nombre puesto en el comando anterior)
 docker start contenedor-mysql
 
 - ELIMINAR TODO DE DOCKER (img, volum, etc)
 docker system prune -a
 
+- ELIMINAR UN CONTENEDOR ESPECIFICO
+docker rm -f contenedor-mysql
+
 docker container logs bc2d5548cff9
 
 
-- ENTRAR AL CONTENEDOR Y CREAR UNA BASE DE DATOS
+- ENTRAR AL CONTENEDOR MYSQL
 
 docker exec -it contenedor-mysql  mysql -p
 
-- CORRER PROYECTO CON MAVEN
-
-./mvnw spring-boot:run
 
 
 - COMANDOS MYSQL
@@ -60,13 +69,129 @@ INSERT INTO empleados (rut, nombres, apellidos) VALUES ("19919462-3", "GerardoAn
 SELECT * FROM empleados;
 SHOW FULL TABLES FROM tingeso_db;
 exit;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////DOCKER APP SPRING BOOT///////////////////////////////
+- CORRER PROYECTO CON MAVEN
+
+./mvnw spring-boot:run
+
+- CREAR ARCHIVO .JAR(saltandose los test)
+
+./mvnw install -DskipTests
+
+
+- CREAR IMAGEN DOCKER DEL PROYECTO (segun el ayudante al final va un punto, aunque el profe lo termina con la version, osea, pone ":latest" al final en vez del punto que dice el ayudante.
+
+docker build -t gerardoluceroc/proyecto_tingeso_1 .
+
+- SUBIR IMAGEN A DOCKERHUB
+
+docker push gerardoluceroc/proyecto_tingeso_1
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 - COMANDOS GIT
 
 git add --all
 git commit -m ""
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////JENKINS/////////////////////////////////////////////////////
+- INSTALACIÓN (long-term support) (al parecer requiere java 11 igual)
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins
+
+- INICIAR JENKINS
+sudo systemctl start jenkins
+
+username: admin
+clae: 84d9311043b647588f717819f85733da 
+
+
+- SOLUCIONAR PROBLEMA DE JENKINS Y LA CREACION DE LA IMAGEN DOCKER DEL PROYECTO POR FALTA DE PERMISOS
+
+sudo usermod -a -G docker jenkins
+sudo systemctl restart jenkins
+
+- ERRORES CON EL SCRIPT DE JENKINS
+
+1. en la parte donde se escribe maven sin comillas, este debe ir en mayuscula (Maven)
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////AWS//////////////////////////////////////
+
+-HABILITAR PUERTO 22 PARA EL SSH
+sudo ufw allow 22/tcp
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
