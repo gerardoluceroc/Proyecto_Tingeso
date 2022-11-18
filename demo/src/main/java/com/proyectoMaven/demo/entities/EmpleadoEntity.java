@@ -86,8 +86,6 @@ public class EmpleadoEntity {
 
     public void setCategoria(CategoriaEmpleadoEntity categoria) {
         this.categoria = categoria;
-    }
-
-   
+    }  
 }
 

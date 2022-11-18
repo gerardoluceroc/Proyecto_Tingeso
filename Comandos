@@ -6,6 +6,10 @@ sudo usermod -aG docker gerardo
 su - gerardo
 
 
+- REVISAR PUERTOS QUE ESTAN ESCUCHANDO
+sudo lsof -i -P -n | grep LISTEN
+
+
 - SOLUCIONAR PROBLEMAS DE IMAGEN DOCKER CERRANDOSE
 https://stackoverflow.com/questions/73217146/mysql-container-keep-not-connecting-to-my-container
 
@@ -16,7 +20,9 @@ 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
 git push https://<GITHUB_ACCESS_TOKEN>@github.com/<GITHUB_USERNAME>/<REPOSITORY_NAME>.git
 git push https://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@github.com/gerardoluceroc/https://github.com/gerardoluceroc/Proyecto_Tingeso.git
 
-
+token actual: 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
+push actual: git push https://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@github.com/gerardoluceroc/microservicios-data-project.git
+	     git push https://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@github.com/gerardoluceroc/Eval-2-Tingeso.git
 ///////////////////////////////COMANDOS DOCKER(ejemplos con MYSQL)/////////////////////////////////////////////////////////////////////////
 - CONSULTAR IMAGENES DOCKER DISPONIBLES EN EL PC
 docker images
@@ -29,6 +35,7 @@ docker ps -a
 
 - CONSULTAR COMANDOS DE LOS VOLUMENES DE DOCKER
 docker volumes
+docker volume ls
 
 - CREAR VOLUMEN PARA TENER UN RESPALDO LOCAL DE LA INFO DE LA BASE DE DATOS
 docker volume create volumen-mysql
@@ -45,11 +52,14 @@ docker run -d -p 33060:3306 --restart always --name contenedor-mysql -e MYSQL_RO
 - EJECUTAR CONTENEDOR MYSQL (con nombre puesto en el comando anterior)
 docker start contenedor-mysql
 
-- ELIMINAR TODO DE DOCKER (img, volum, etc)
+- ELIMINAR TODO DE DOCKER (img, volum, etc) (aclaración: puede que no elimine los volumenes, me acaba de pasar, y eso puede traer problemas a la hora de ingresar a una nueva BD)
 docker system prune -a
 
 - ELIMINAR UN CONTENEDOR ESPECIFICO
 docker rm -f contenedor-mysql
+
+- ELIMINAR UN VOLUMEN
+docker volume rm volumen-mysql
 
 docker container logs bc2d5548cff9
 
@@ -186,6 +196,57 @@ sudo ufw allow 22/tcp
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+spring:
+  application:
+    name: empleado-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8091
+  datasource:
+    url: jdbc:mysql://localhost:33060/empleadoServiceBD
+    username: root
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8090
 
 
 
